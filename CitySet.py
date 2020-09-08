@@ -1,47 +1,49 @@
 import copy
+import City
 
 class CitySet:
-    pathnum_city  = {} #area->city
-    order_city    = {} #order->city
-    citycode_city = {} #citycode->city
 
     def __init__(self,CityList):
         self.cityList = CityList
+        self.pathnum_city   = {} 
+        self.citycode_city  = {} 
+        self.prefec_city    = {}
+        self.branch_city    = {}
+        self.county_city    = {}
+        self.cityname_city  = {}
+        self.order_city     = {} 
+        self.colorcode_city = {} 
 
         #init
-        dict_to_city = self.key_to_city()
-        pathnum_city = dict_to_city[0]
-        order_city = dict_to_city[1]
-        citycode_city = dict_to_city[2]
+        self.key_to_city()
     
     def key_to_city(self):
         pathnum_city = {} 
         for city in self.cityList:
             for pathnum in city.areablocks_getter():
-                pathnum_city[pathnum] = copy.copy(city)
+                self.pathnum_city[pathnum] = copy.copy(city)
 
-            for citycode in city.citycode_getter():
-                citycode_city[citycode] = copy.copy(city)
+            citycode = city.citycode_getter()
+            self.citycode_city[citycode] = copy.copy(city)
             
-            for prefec in city.prefec_getter():
-                prefec_city[prefec] = copy.copy(city)
+            prefec = city.prefec_getter()
+            self.prefec_city[prefec] = copy.copy(city)
 
-            for branch in city.branch_getter():
-                branch_city[prefec] = copy.copy(city)
+            branch = city.branch_getter()
+            self.branch_city[prefec] = copy.copy(city)
 
-            for county in city.county_getter():
-                county_city[prefec] = copy.copy(city)
+            county = city.county_getter()
+            self.county_city[prefec] = copy.copy(city)
 
-            for cityname in city.cityname_getter():
-                cityname_city[cityname] = copy.copy(city)
+            cityname = city.cityname_getter()
+            self.cityname_city[cityname] = copy.copy(city)
             
-            for order in city.order_getter() :
-                order_city[order] = copy.copy(city)
+            order = city.order_getter() 
+            self.order_city[order] = copy.copy(city)
 
-            for colorcode in city.colorcode_getter() :
-                colorcode_city[colorcode] = copy.copy(city)
+            colorcode = city.colorcode_getter() 
+            self.colorcode_city[colorcode] = copy.copy(city)
             
-        return pathnum_city,order_city,citycode_city
     
     
     
@@ -62,5 +64,8 @@ class CitySet:
             return citycode_city[citycode]
         else:
             print("CityCode value is invalid.")
-    
-        
+
+
+city = City.City(27,["osaka","","","yao"],[2,3,4],4)
+city2 = City.City(7,["osaka","","","kashiwara"],[1],2)
+c = CitySet([city,city2])

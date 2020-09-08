@@ -46,6 +46,15 @@ class City:
     def citycode_getter(self):
         return self.citycode
 
+    def prefec_getter(self):
+        return self.prefec
+    
+    def branch_getter(self):
+        return self.branch
+    
+    def county_getter(self):
+        return self.county
+
     def cityname_getter(self):
         return self.cityname
 
@@ -57,4 +66,4 @@ class City:
     
     def colorcode_getter(self):
         return self.colorcode
-    
+  
