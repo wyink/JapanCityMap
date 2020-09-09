@@ -1,69 +1,69 @@
+from typing import List
+
 class City:
-    '''
-    Description
-    -----------
-    Cityクラス
-    行政地区の情報を管理するクラス
+    '''行政地区の情報を管理するクラス
     
-    Member
-    --------
+    Attributes
+    ----------
     citycode:int
-        行政地区コード
-    
+        行政地区コード 
     prefec:str
         都道府県名
-
     branch:str
         支庁名
-
     county:str
         群および政令指定都市名
-
     cityname:str
-        市区町村名
-    
-    areablocks:list[int]
+        市区町村名  
+    areablocks:List[int]
         svgに出現したpathタグのカウンタリスト
-        各行政地区に属するエリアを保持する．
-    
+        各行政地区に属するエリアを保持する．   
+    order:int
+        svgに出現した色指標の順番
+        昇順に並べたとき，行政地区コードの昇順に対応．   
     colorcode:str
-        エリアを塗りつぶす色
-        HTMLで表示される形式で保持する．
-
+        エリアを塗りつぶすカラーコード
     '''
 
     def __init__(self,citycode,property,areablocks,order,colorcode='#FFFFFF'):
-        self.citycode = citycode
-        self.prefec = property[0]
-        self.branch = property[1]
-        self.county = property[2]
-        self.cityname = property[3]
-        self.areablocks = areablocks
-        self.order = order
-        self.colorcode = colorcode
+        self._citycode = citycode
+        self._prefec = property[0]
+        self._branch = property[1]
+        self._county = property[2]
+        self._cityname = property[3]
+        self._areablocks = areablocks
+        self._order = order
+        self._colorcode = colorcode
     
-
-    def citycode_getter(self):
+    @property
+    def citycode(self) :
         return self.citycode
 
-    def prefec_getter(self):
+    @property
+    def prefec(self):
         return self.prefec
     
-    def branch_getter(self):
+    @property
+    def branch(self):
         return self.branch
     
-    def county_getter(self):
+    @property
+    def county(self):
         return self.county
 
-    def cityname_getter(self):
+    @property
+    def cityname(self):
         return self.cityname
 
-    def areablocks_getter(self):
+    @property
+    def areablocks(self):
         return self.areablocks
     
-    def order_getter(self):
+    @property
+    def order(self):
         return self.order
     
-    def colorcode_getter(self):
+    @property
+    def colorcode(self):
         return self.colorcode
   
