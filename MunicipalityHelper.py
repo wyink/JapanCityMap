@@ -1,8 +1,17 @@
-import sys
 import re
 import json
 import copy
 from collections import OrderedDict
+from typing import Dict, List, TypeVar
+import City
+
+#type-alias
+TDSLi   = Dict[str,List[int]]
+TDSI    = Dict[str,int]
+TLi     = List[int]
+TLs     = List[str]
+TDSLs   = Dict[str,List[str]]
+City = TypeVar('City')
 
 
 class MunicipalitiesHelper:
@@ -23,7 +32,7 @@ def main():
                     order_path_sorted
                 )
 
-    #各エリアを示すpathタグの出現順序とその場所を保持する
+    #各エリアを示すpathタグのカウンタとその場所を保持する
     #cityを結びつける．
     area_citycode = path_cityobject_linker(cityList)
 
@@ -34,31 +43,28 @@ def main():
 
 
         
-def color_area_linker(lines:list)->dict:
-    '''
-        Description
-        ------------------------------
-        dict[行政地区]=[area1,area2...]
-        に対応する辞書
-        dict[カラーコード] = [<path1>,<path2>...]
-        を返す関数
+def color_pathtag_linker(lines):
+    '''カラーコードとpathタグのカウンタの対応
 
-        各pathタグは一つのエリアに対応する．
-        各行政地区は複数のエリアを保持する．
-        →各行政地区は複数のpathタグを持つ．
-        カラーコードと各行政地区は1対1で対応している．
-        →各カラーコードは複数のpathタグを持つ．
+        Dict[citycode : List[area]]
+        に対応する辞書である
+        Dict[colorcode : List[pathタグのカウンタ]]
+        を返却する関数
+
+        ・各pathタグのカウンタは一つのエリアに対応
+        ・各行政地区は複数のエリアを保持
         
         Params
         ------
-        lines:list
+        lines : List[str]
             入力ファイルの一行分の文字列リスト
             のうち、エリア描画部分のsvg記述
 
         Returns
         -------
-        ccpa : dict (key:str,value:int)
-            ccpa[ColorCode]=[pathNum,pathNum...]
+        Dict[str , List[int]]
+            key : カラーコード
+            val : pathタグのカウンタのリスト
 
     '''
 
@@ -75,58 +81,78 @@ def color_area_linker(lines:list)->dict:
     return ccpa
 
 
-def order_pathNum_linker(ccpa:dict,ccoa:dict)->dict:
-    '''
-    Description
-    -----------
-    dict[行政地区]=[area1,area2]
+def colorindex_pathtag_linker(ccpa,ccoa):
+    '''色指標のカウンタと行政地区コードの対応
+
+    Dict[citycode , List[area]]
     に対応する辞書
-    dict[色指標の出現順序]=[<path1>,<path2>...]
+    Dict[the counter of colorIndex , List[pathタグのカウンタ]]
     を返す関数
 
-    入力のsvgファイルの色指標の出現順序は行政地区コードを
-    昇順に並べた順序と対応している．
-    入力のsvgファイルにおける各エリアブロックはpathタグ
-    の出現順序（以下pathNum)に対応している．
+    色指標のカウンタ（昇順）は行政地区コード（昇順）と1:1で対応
 
     Parameters
     ----------
-    ccpa : dict(str:list)
-        dict[ColorCode] = [pathNum,pathNum,...]
-        キーはカラーコード
-        値はキーの出現順序に対応するカラーコードを保持する
-        pathタグの出現順序のリスト
+    ccpa : Dict[str , List[int]]
+        key : カラーコード
+        val : pathタグのカウンタのリスト
+        
+        ex. dict[#FFFFFF] = [1,3,5]
+
     
-    ccoa : dict(str:int)
-        dict[ColorCode] = Order-of-appearance
-        キーはカラーコード
-        値は色指標の出現順序
+    ccoa : Dict[str , int]
+        key : カラーコード
+        val : 色指標のカウンタ
+
+        ex. dict[#FFF] = 3
 
     Returns
     -------
-    order_path:dict(str:str)
-        dict[order]=[pathNUm,pathNum...]
-        キーは入力svgファイルの色指標の出現順序
-        値はキーの出現順序に対応するカラーコードを保持する
-        pathタグの出現順序のリスト
+    Dict[str , List[int]]
+        key : 入力svgファイルの色指標のカウンタ
+        val : pathタグのカウンタのリスト
+
+        ex. dict[order]=[1,3]
+
     
     '''
 
-    order_path = {} 
+    colorindex_pathtag = {} 
     for colorcode,order in ccoa.items():
-        order_path[order] = ccpa[colorcode]
+        colorindex_pathtag[order] = ccpa[colorcode]
     
-    return order_path
+    return colorindex_pathtag
         
 
 
-def read_svg(infile:str)->dict:
-    ccpa={} #ccpa[ColorCode] = [pathNum,pathNum,...]
-    ccoa={} #ccoa[ColorCode] = Order-of-appearance
-    pathNum,flag,order,colorcode = 0,1,0,''
-    lines:list=[]
+def read_svg(infile):
+    '''色指標のカウンタとpathタグのカウンタを対応
+    
+    色指標のカウンタ（昇順）は行政地区コード（昇順）に1:1で対応
+    pathタグはsvgファイルでのエリアに対応している．
+    read_geojson関数で実際の行政地区コードとこのエリアを対応付ける
+    前処理をこの関数では行う．
 
+    Parameters
+    ----------
+    infile : str
+        入力ファイル名（パス）
 
+    Returns
+    -------
+    Dict[int , List[int]]
+        key : 色指標のカウンタ
+        val : pathタグのカウンタのリスト
+
+    '''
+
+    ccpa:TDSLi  ={}   #[ColorCode : List[pathタグのカウンタ]]
+    ccoa:TDSI   ={}    #[ColorCode : 色指標のカウンタ]
+    lines:TLs   =[]
+
+    flag,order,colorcode = 1,0,''
+
+    #カラーコードとpathタグのカウンタを対応
     for l in open(infile,encoding='utf-8'):
         l = l.rstrip()
         if flag==1 and l.startswith('<path style="fill-rule:evenodd'):
@@ -135,7 +161,7 @@ def read_svg(infile:str)->dict:
             continue
         elif l.startswith('<g style'):
             flag=0
-            ccpa = color_area_linker(lines)
+            ccpa = color_pathtag_linker(lines)
             continue
         else:
             if l.startswith('<path style="fill-rule:even'):
@@ -143,24 +169,46 @@ def read_svg(infile:str)->dict:
                 ccoa[colorcode] = order
                 order += 1
     
-    order_path = order_pathNum_linker(ccpa,ccoa)
+    #色指標のカウンタとpathタグのカウンタを対応
+    ci_pathtag = colorindex_pathtag_linker(ccpa,ccoa)
     
-    order_path_sorted = {}
-    for order,path in sorted(order_path.items(),key=lambda x:x[0]) :
-        order_path_sorted[order] = path
+    ci_pathtag_sorted = {}
+    for order,path in sorted(ci_pathtag.items(),key=lambda x:x[0]) :
+        ci_pathtag_sorted[order] = path
 
-    return order_path_sorted
+    return ci_pathtag_sorted
 
-def read_geojson(infile:str)->dict:
-    #code_property[citycode]=[prefec,branch,county,city]
-    code_property={} 
+def read_geojson(infile):
+    '''行政地区コードと対応する属性を取得
+
+    行政地区コードはCityクラスで扱う最小単位である．
+    これをキーとして県名・支庁名・群名/政令指定都市名
+    市区町村名を対応付けする．
+
+    Parameters
+    ----------
+    infile : str
+        入力ファイル（拡張子geojson）
+    
+    Returns
+    -------
+    Dict[str , List[str]]
+        key : 行政地区コード
+        val : 県名,支庁名、群・政令指定都市名・市区町村名
+
+        ex. dict[27107] : List['大阪府','',堺市,港区]]
+
+    '''
+
+    code_property:TDSLs ={} #[citycode : List[prefec,branch,county,city]]
 
     with open(infile,encoding='UTF-8')as f:
         d = json.load(f,object_pairs_hook=OrderedDict)    
 
+    prefec,branch,county,city,citycode = '','','','',''
     for i in d['features']:
         for property,value in i['properties'].items() :
-            if  (property=='N03_001'): #prefecture
+            if  (property=='N03_001'): #県
                 prefec = value
             elif(property=='N03_002'): #支庁
                 branch = value
@@ -175,19 +223,25 @@ def read_geojson(infile:str)->dict:
             else:
                 continue
 
-    code_property_sorted = {}
+    code_property_sorted:TDSLs = {} #[citycode : List[prefec,branch,county,city]]
 
     for code,prop in sorted(code_property.items(),key=lambda x:x[0]):
         code_property_sorted[code] = prop 
     return code_property_sorted
 
-def create_city_object(code_property_sorted:dict,order_path_sorted:dict)->list:
+def create_city_object(code_property_sorted,ci_pathtag_sorted):
+    '''行政地区コードととpathタグのカウンタを結びつける
 
+    
+
+    '''
+    pathList:TLi = []
+    cityList:List[City] = []
     order=0
-    pathList,cityList = [],[]
+
     for citycode,property in code_property_sorted.items():
-        pathList = order_path_sorted[order]
-        city = City(citycode,property,pathList,'#FFFFFF')
+        pathList = ci_pathtag_sorted[order]
+        city = City.City(citycode,property,pathList,'#FFFFFF')
         cityList.append(city)
         order += 1
     
@@ -202,7 +256,7 @@ def path_cityobject_linker(cityList:list)->dict:
 
 def output_svg(infile,outfile,cityList,area_citycode):
     flag,rowNum,retflag=1,0,0
-    ccobj,code,jp = '','',''
+    ccobj,code = '',''
 
     f = open(outfile,'w',encoding='utf-8')
     for l in open(infile,encoding='utf-8'):

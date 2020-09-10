@@ -89,8 +89,8 @@ class CitySet:
         return self.pathnum_city.keys()
 
     def get_city_from_citycode(self,citycode):
-        if citycode in citycode_city:
-            return citycode_city[citycode]
+        if citycode in self.citycode_city:
+            return self.citycode_city[citycode]
         else:
             print("CityCode value is invalid.")
 
@@ -110,7 +110,7 @@ class CitySet:
         return self.citycode_city.keys()
 
     def get_city_from_prefec(self,prefec):
-        if prefec in prefec_city[prefec]:
+        if prefec in self.prefec_city[prefec]:
             return self.prefec_city[prefec]
         else:
             print("Prefec value is invalid. ")
@@ -122,7 +122,7 @@ class CitySet:
         -------
         self.branch_city[branch] : List[City]
         '''
-        if branch in branch_city[branch]:
+        if branch in self.branch_city[branch]:
             return self.branch_city[branch]
         else:
             print("Branch value is invalid. ")
