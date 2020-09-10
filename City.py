@@ -37,33 +37,32 @@ class City:
     
     @property
     def citycode(self) :
-        return self.citycode
+        return self._citycode
 
     @property
     def prefec(self):
-        return self.prefec
+        return self._prefec
     
     @property
     def branch(self):
-        return self.branch
+        return self._branch
     
     @property
     def county(self):
-        return self.county
+        return self._county
 
     @property
     def cityname(self):
-        return self.cityname
+        return self._cityname
 
-    @property
     def areablocks(self):
-        return self.areablocks
+        return self._areablocks
     
     @property
     def order(self):
-        return self.order
+        return self._order
     
     @property
     def colorcode(self):
-        return self.colorcode
+        return self._colorcode
   
