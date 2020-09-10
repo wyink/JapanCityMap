@@ -74,7 +74,7 @@ class CitySet:
             print("PathNum value is invalid.")
 
     
-    def get_city_from_pathnum_all(self):
+    def get_pathnum_all(self):
         '''cityオブジェクトが持つすべてのpathnum
 
         このオブジェクトで管理されているcityオブジェクト
