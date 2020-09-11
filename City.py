@@ -1,3 +1,4 @@
+from pickle import TRUE
 from typing import List
 
 class City:
@@ -12,7 +13,7 @@ class City:
     branch:str
         支庁名
     county:str
-        群および政令指定都市名
+        郡および政令指定都市名
     cityname:str
         市区町村名  
     areablocks:List[int]
@@ -33,7 +34,7 @@ class City:
         self._cityname = property[3]
         self._areablocks = areablocks
         self._order = order
-        self._colorcode = colorcode
+        self._colorcode = colorcode     #colorcodeのみ変更可能
     
     @property
     def citycode(self) :
@@ -65,4 +66,24 @@ class City:
     @property
     def colorcode(self):
         return self._colorcode
-  
+    
+    @colorcode.setter
+    def colorcode(self,colorcode):
+        self._colorcode = colorcode
+
+    
+    def isCounty(self):
+        '''cityが郡・政令指定都市に所属するかの判定
+
+        Returns
+        -------
+        bool 
+            True : cityが郡もしくは政令指定都市に所属する．
+            False : 郡もしくは政令指定都市に所属しない．
+        
+        '''
+        if self._county != '':
+            return True
+        else:
+            return False
+        
