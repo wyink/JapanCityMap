@@ -1,13 +1,15 @@
 from collections import defaultdict
-from typing import List
+from typing import List,TypeVar
 import City
+
+C = TypeVar('C') #City
 
 class CitySet:
 
-    def __init__(self,CityList):
+    def __init__(self,CityList:List[C]):
         self.cityList = CityList
 
-        self.pathnum_city   = defaultdict(list) 
+        self.pathnum_city   = {}
         self.citycode_city  = defaultdict(list)  
         self.prefec_city    = defaultdict(list) 
         self.branch_city    = {} 
@@ -36,7 +38,7 @@ class CitySet:
         for city in self.cityList:
 
             for pathnum in city.areablocks():
-                self.pathnum_city[pathnum].append(city)
+                self.pathnum_city[pathnum] = city
 
             self.citycode_city[city.citycode]  = city
             self.prefec_city[city.prefec]           .append(city)
@@ -63,8 +65,8 @@ class CitySet:
 
         Returns
         -------
-        pathnum_city[pathNum] : List[City]
-            pathNum番目のsvgタグに対応するエリアのcity
+        City
+            pathNum番目のsvgタグに対応するエリアのcityオブジェクト．
 
         '''
 

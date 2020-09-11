@@ -1,9 +1,9 @@
 import re
 import json
-import copy
 from collections import OrderedDict
 from typing import Dict, List, TypeVar
 import City
+import CitySet
 
 #type-alias
 TDSLi   = Dict[str,List[int]]
@@ -11,7 +11,7 @@ TDSI    = Dict[str,int]
 TLi     = List[int]
 TLs     = List[str]
 TDSLs   = Dict[str,List[str]]
-City = TypeVar('City')
+C = TypeVar('C') #City
 
 
 class MunicipalitiesHelper:
@@ -27,18 +27,18 @@ def main():
     code_property_sorted = read_geojson(infile2)
 
     #cityオブジェクトの生成
-    cityList = create_city_object(
+    cityset = create_city_object(
                     code_property_sorted,
                     order_path_sorted
                 )
 
     #各エリアを示すpathタグのカウンタとその場所を保持する
     #cityを結びつける．
-    area_citycode = path_cityobject_linker(cityList)
+    #area_citycode = path_cityobject_linker(cityList)
 
     #白地図の出力
-    outfile = "tmp/OsakaMap_brank.svg"
-    output_svg(infile1,outfile,cityList,area_citycode)
+    outfile = "tmp/OsakaMap_brank2.svg"
+    output_svg(infile1,outfile,cityset)
 
 
 
@@ -232,11 +232,31 @@ def read_geojson(infile):
 def create_city_object(code_property_sorted,ci_pathtag_sorted):
     '''行政地区コードととpathタグのカウンタを結びつける
 
+    行政地区コードとcode_property_sortedが保持する各属性値、
+    およびpathタグのカウンタを結びつける．
+    各行政地区コードおよびこれに紐づけされる各要素をともにメンバ関数
+    とするCityオブジェクトを作成する．
+
+    Parameters
+    ----------
+    code_property_sorted : Dict[str , List[str]]
+        key : 行政地区コード
+        val : 県名・支庁名・群名または政令指定都市名・市区町村名のリスト
+    
+    ci_pathtag_sorted : Dict[str , List[int]]
+        key : 入力svgファイルの色指標のカウンタ
+        val : pathタグのカウンタのリスト
+
+    Returns
+    --------
+    CitySet
+        入力ファイルから作成されたcityオブジェクトの全て
+        が格納されたリスト
     
 
     '''
     pathList:TLi = []
-    cityList:List[City] = []
+    cityList:List[C] = []
     order=0
 
     for citycode,property in code_property_sorted.items():
@@ -245,16 +265,19 @@ def create_city_object(code_property_sorted,ci_pathtag_sorted):
         cityList.append(city)
         order += 1
     
-    return cityList
+    cityset = CitySet.CitySet(cityList)
+    return cityset
 
-def path_cityobject_linker(cityList:list)->dict:
+'''
+def path_cityobject_linker(cityList) :
     area_citycode = {} 
     for city in cityList:
         for area in city.areablocks_getter():
             area_citycode[area] = copy.copy(city)
     return area_citycode
+'''
 
-def output_svg(infile,outfile,cityList,area_citycode):
+def output_svg(infile,outfile,cityset):
     flag,rowNum,retflag=1,0,0
     ccobj,code = '',''
 
@@ -270,9 +293,8 @@ def output_svg(infile,outfile,cityList,area_citycode):
         if flag==1 and l.startswith('<path style="fill-rule:evenodd'):
             flag=1
             ccobj = re.search(r'<path (style="fill-rule.+;)fill:rgb\(.+?\);(fill-opacity.+$)',l)
-            city = area_citycode[rowNum]
-            code = city.citycode_getter()
-            cityname = city.cityname_getter()
+            city = cityset.get_city_from_pathnum(rowNum)
+            cityname = city.cityname
             f.write('<path class="cwtv {} {}" {}fill:white;{}\n'.format(code,cityname,ccobj.group(1),ccobj.group(2)))
             rowNum+=1
         elif l.startswith('<g style'):
