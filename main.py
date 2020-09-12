@@ -1,6 +1,4 @@
-from InFileParser import SvgUtils,GeoJsonUtils
-from CityHelper import CityHelper
-from OutFormat import OutFormat
+from module import *
 
 def main():
     #svgファイルの読み込み

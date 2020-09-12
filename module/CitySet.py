@@ -1,4 +1,4 @@
-from City import City
+from .City import City
 from typing import Dict, TypeVar,List
 
 #type-alias

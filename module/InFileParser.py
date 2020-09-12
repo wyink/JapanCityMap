@@ -1,4 +1,3 @@
-from CitySet import CitySet
 from collections import OrderedDict
 from typing import Dict, List,TypeVar
 import json

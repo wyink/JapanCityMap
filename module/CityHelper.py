@@ -1,6 +1,6 @@
 from typing import Dict, List,Tuple
-from CitySet import CitySet
-from City import City
+from .CitySet import CitySet
+from .City import City
 
 
 class CityHelper:

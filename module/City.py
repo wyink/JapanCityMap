@@ -1,6 +1,3 @@
-from pickle import TRUE
-from typing import List
-
 class City:
     '''行政地区の情報を管理するクラス
     
