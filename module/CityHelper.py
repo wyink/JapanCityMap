@@ -118,7 +118,10 @@ class CityHelper:
                    city.colorcode = color
             else:#市区町村名であると判定
                 city = cityset.get_city_from_cityname(county)
-                city.colorcode = color              
+                try:
+                    city.colorcode = color
+                except AttributeError:
+                    print("Invalid value : " + county)              
         return cityset
 
         

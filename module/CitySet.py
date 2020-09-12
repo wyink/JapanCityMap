@@ -163,7 +163,7 @@ class CitySet:
         if cityname in self.cityname_city:
             return self.cityname_city[cityname]
         else:
-            print("Cityname valu is invalid. ")
+            print("Cityname value is invalid. ")
     
     def get_city_from_prefec(self,prefec):
         if prefec in self.prefec_city:
