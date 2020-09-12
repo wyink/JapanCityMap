@@ -82,8 +82,6 @@ class City:
             False : 郡もしくは政令指定都市に所属しない．
         
         '''
-        if self._county != '':
-            return True
-        else:
-            return False
+        
+        return True if self._county else False
         

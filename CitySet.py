@@ -201,12 +201,14 @@ class CitySet:
         -------
         List[City]
             指定されたcountyを保持するcity
-            （引数なしの場合は'county'を保持するすべてのcity）
+            （引数なしの場合は'county'を保持
+            するすべてのcity）
 
         '''
         if county in self.county_city:
             return self.county_city[county]
         elif county == 'All':
+
             #1次元配列に変換
             onedarray=[] # type: List[City]
             for cityList in self.county_city.values() :

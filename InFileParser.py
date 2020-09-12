@@ -17,7 +17,7 @@ C = TypeVar('C') #City
 class SvgUtils :
 
     @staticmethod
-    def read_svg(infile):
+    def svg_parser(infile):
         '''色指標のカウンタとpathタグのカウンタを対応
         
         色指標のカウンタ（昇順）は行政地区コード（昇順）に1:1で対応
@@ -157,7 +157,7 @@ class SvgUtils :
 class GeoJsonUtils :
 
     @staticmethod
-    def read_geojson(infile):
+    def geojson_parser(infile):
         '''行政地区コードと対応する属性を取得
 
         行政地区コードはCityクラスで扱う最小単位である．
@@ -207,54 +207,4 @@ class GeoJsonUtils :
         for code,prop in sorted(code_property.items(),key=lambda x:x[0]):
             code_property_sorted[code] = prop 
         return code_property_sorted
-
-class UserfileUtils :
-
-    
-    @staticmethod
-    def change_color_from_citycode(infile:str, delimiter:str, cityset:CitySet):
-        '''行政地区コードを指定して色を変更する
-        '''
-        for l in infile:
-            l = l.strip()
-            citycode,colorcode = l.split(delimiter,1)
-
-            #入力ファイルの第一カラムに対応するcitycodeを検索
-            city = cityset.get_city_from_citycode(citycode)
-
-            #第二カラムに指定されたカラーコードに変更   
-            city.colorcode(colorcode)
-    
-        return cityset
-
-    @staticmethod
-    def change_color_from_county(infile:str, delimiter:str, cityset:CitySet):
-        '''市区町村名・もしくは郡・政令指定都市名を指定して色を変更する
-
-        大阪府の場合，大阪市や堺市、また泉北郡・南河内郡などがあり、これらと
-        貝塚，岸和田市などが混在している場合でも利用可能
-
-        例
-            Ok!      堺市，能勢町，岸和田市
-            Not Ok!  堺市，港区（堺市に属する）
-                この場合は後に読み込まれた行政地区に上書きされる．
-                （必ずしも期待した出力結果でない可能性がある） 
-        
-        '''
-
-        for l in infile:
-            l = l.strip()
-            county,colorcode = l.split(delimiter,1)
-
-            cityList = [] # type : List[City]
-            if cityset.isCounty(county) : #入力した値が郡・政令指定都市かどうかの判定
-                cityList = cityset.get_city_from_county('All') 
-                for city in cityList:           
-                   city.colorcode(colorcode)
-            else:#市区町村名であると判定
-                city = cityset.get_city_from_cityname(county)
-                city.colorcode(colorcode)               
-            
-        return cityset
-
 
