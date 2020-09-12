@@ -262,15 +262,3 @@ class CitySet:
 
 
 
-#example
-
-'''
-city = City.City(27,["osaka","","sakai","yao"],[2,3,4],4)
-city2 = City.City(7,["osaka","","oosaka","kashiwara"],[1],2)
-c = CitySet([city,city2])
-
-a = c.get_city_from_county()
-for i in a :
-    print(i.cityname)
-'''
-
