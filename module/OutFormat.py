@@ -1,16 +1,26 @@
+from module.CitySet import CitySet
 import re
 
 class OutFormat:
 
     @staticmethod
-    def output_svg(infile,outfile,cityset):
+    def output_svg(infile:str, outfile:str, cityset:CitySet)->None:
         '''svgファイルへの出力
 
         citysetに登録されたcityクラスのデータをもとに
         svgファイルへ出力する．
 
+        Parameters
+        ----------
+        infile : str
+            入力svgファイル名（パス）
+        outfile : str
+            出力ファイル名（パス）
+        cityset : CitySet
+            svgで出力する各行政地区（City）の情報を格納したオブジェクト
 
         '''
+
         flag,rowNum,retflag=1,0,0
         ccobj,code = '',''
 

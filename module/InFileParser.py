@@ -1,22 +1,12 @@
 from collections import OrderedDict
-from typing import Dict, List,TypeVar
+from typing import Dict, List
 import json
 import re
-
-#type-alias
-TDSLi   = Dict[str,List[int]]
-TDSI    = Dict[str,int]
-TLs     = List[str]
-TLi     = List[int]
-TDSLs   = Dict[str,List[str]]
-C = TypeVar('C') #City
-
-
 
 class SvgUtils :
 
     @staticmethod
-    def svg_parser(infile):
+    def svg_parser(infile:str)->Dict[int, List[int]]:
         '''色指標のカウンタとpathタグのカウンタを対応
         
         色指標のカウンタ（昇順）は行政地区コード（昇順）に1:1で対応
@@ -37,9 +27,9 @@ class SvgUtils :
     
         '''
     
-        ccpa:TDSLi  ={}   #[ColorCode : List[pathタグのカウンタ]]
-        ccoa:TDSI   ={}    #[ColorCode : 色指標のカウンタ]
-        lines:TLs   =[]
+        ccpa = {}   # type: Dict[str, List[int]] 
+        ccoa = {}   # type: Dict[str, int]
+        lines =[]   # type: List[str]
     
         flag,order,colorcode = 1,0,''
     
@@ -72,7 +62,7 @@ class SvgUtils :
 
     
     @staticmethod
-    def _colorindex_pathtag_linker(ccpa,ccoa):
+    def _colorindex_pathtag_linker(ccpa:Dict[str, List[int]], ccoa:Dict[str, int])->Dict[str , List[int]]:
         '''色指標のカウンタと行政地区コードの対応
     
         Dict[citycode , List[area]]
@@ -95,7 +85,7 @@ class SvgUtils :
             key : カラーコード
             val : 色指標のカウンタ
     
-            ex. dict[#FFF] = 3
+            ex. dict[#FFFFFF] = 3
     
         Returns
         -------
@@ -115,7 +105,7 @@ class SvgUtils :
         return colorindex_pathtag
 
     @staticmethod
-    def _color_pathtag_linker(lines):
+    def _color_pathtag_linker(lines:List[str])->Dict[str , List[int]]:
         '''カラーコードとpathタグのカウンタの対応
 
             Dict[citycode : List[area]]
@@ -156,7 +146,7 @@ class SvgUtils :
 class GeoJsonUtils :
 
     @staticmethod
-    def geojson_parser(infile):
+    def geojson_parser(infile:str)->Dict[str , List[str]]:
         '''行政地区コードと対応する属性を取得
 
         行政地区コードはCityクラスで扱う最小単位である．
@@ -178,7 +168,7 @@ class GeoJsonUtils :
 
         '''
 
-        code_property:TDSLs ={} #[citycode : List[prefec,branch,county,city]]
+        code_property = {} # type: Dict[str, List[str]]
 
         with open(infile,encoding='UTF-8')as f:
             d = json.load(f,object_pairs_hook=OrderedDict)    
@@ -201,7 +191,7 @@ class GeoJsonUtils :
                 else:
                     continue
 
-        code_property_sorted:TDSLs = {} #[citycode : List[prefec,branch,county,city]]
+        code_property_sorted = {} #type Dict[str, List[str]]
 
         for code,prop in sorted(code_property.items(),key=lambda x:x[0]):
             code_property_sorted[code] = prop 

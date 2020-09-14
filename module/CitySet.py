@@ -1,8 +1,5 @@
 from .City import City
-from typing import Dict, TypeVar,List
-
-#type-alias
-C = TypeVar('C') #City
+from typing import Dict, List
 
 class CitySet:
     '''複数のCityオブジェクトを管理するクラス
@@ -44,19 +41,19 @@ class CitySet:
         
         '''
 
-        self.pathnum_city   = {} # type: Dict[str , City]
+        self.pathnum_city   = {} # type: Dict[int , City]
         self.citycode_city  = {} # type: Dict[str , City] 
         self.prefec_city    = {} # type: Dict[str , List[City]]
         self.branch_city    = {} # type: Dict[str , City]
         self.county_city    = {} # type: Dict[str , List[City]]
         self.cityname_city  = {} # type: Dict[str , City]
-        self.order_city     = {} # type: Dict[str , City] 
+        self.order_city     = {} # type: Dict[int , City] 
         self.colorcode_city = {} # type: Dict[str , City] 
 
         self.unique_attr_getter(cityList)
     
 
-    def unique_attr_getter(self, cityList:List[City]):
+    def unique_attr_getter(self, cityList:List[City])->None:
         '''Cityの各属性値とそれに対応するインスタンスを連携
 
         Cityの各属性値には複数の値が存在する．場合によって
@@ -76,7 +73,8 @@ class CitySet:
         '''
 
         for city in cityList:
-
+            
+            pathnum = 0
             for pathnum in city.areablocks():
                 self.pathnum_city[pathnum] = city
 
@@ -102,7 +100,7 @@ class CitySet:
                     self.county_city[city.county].append(city)
 
     
-    def get_city_from_pathnum(self,pathNum):
+    def get_city_from_pathnum(self, pathNum:int)->City:
         '''入力のpathNumに対応するcityインスタンスを返却
 
         Parameters
@@ -121,10 +119,10 @@ class CitySet:
         if (pathNum<len(self.pathnum_city)):
             return self.pathnum_city[pathNum]
         else:
-            print("PathNum value is invalid.")
+            raise ValueError("PathNum value is invalid.")
 
     
-    def get_pathnum_all(self):
+    def get_pathnum_all(self)->List[int]:
         '''cityオブジェクトが持つすべてのpathnum
 
         このオブジェクトで管理されているcityオブジェクト
@@ -132,20 +130,34 @@ class CitySet:
 
         Returns
         -------
-        self.pathnum_city.keys() : List[int]
+        List[int]
             cityオブジェクトが保持するpathnumのリスト
 
         '''
-        return self.pathnum_city.keys()
+        return list(self.pathnum_city.keys())
 
-    def get_city_from_citycode(self,citycode):
+    def get_city_from_citycode(self,citycode)->City:
+        '''行政地区コードから対応するcityオブジェクトを取得
+
+        Parameters
+        ----------
+        citycode : str
+            取得したいcityの行政地区コード
+        
+        Returns
+        -------
+        City
+            citycodeに対応するCityオブジェクト
+
+        '''
+
         if citycode in self.citycode_city:
             return self.citycode_city[citycode]
         else:
-            print("CityCode value is invalid.")
+            raise ValueError("CityCode value is invalid.")
 
 
-    def get_citycode_all(self):
+    def get_citycode_all(self)->List[str]:
         '''cityオブジェクトが持つすべてのcitycodeを取得
 
         このオブジェクトで管理されているcityオブジェクト
@@ -153,37 +165,73 @@ class CitySet:
 
         Returns
         -------
-        self.citycode_city.keys() : List[str]
+        List[str]
             cityオブジェクトが保持するcitycodeのリスト
 
         '''
-        return self.citycode_city.keys()
 
-    def get_city_from_cityname(self,cityname):
+        return list(self.citycode_city.keys())
+
+    def get_city_from_cityname(self, cityname:str)->City:
+        '''行政地区名から対応するcityオブジェクトを取得
+
+        Parameters
+        -----------
+        cityname : str
+            取得したいcityオブジェクトの行政地区名
+        
+        Returns
+        -------
+        City
+            citynameに対応するcityオブジェクト
+
+        '''
+
         if cityname in self.cityname_city:
             return self.cityname_city[cityname]
         else:
-            print("Cityname value is invalid. ")
+            raise ValueError("Cityname value is invalid. ")
     
-    def get_city_from_prefec(self,prefec):
-        if prefec in self.prefec_city:
-            return self.prefec_city[prefec]
-        else:
-            print("Prefec value is invalid. ")
-            
-    def get_city_from_branch(self,branch):
-        '''
+    def get_city_from_prefec(self,prefec)->List[City]:
+        '''県名にから対応するcityオブジェクトのリストを取得
+
+        Parameters
+        ----------
+        prefec : str
+            取得したいcityオブジェクトの県名
 
         Returns
         -------
-        self.branch_city[branch] : List[City]
+        List[City]
+            prefecに対応するCityオブジェクトのリスト
+
         '''
+
+        if prefec in self.prefec_city:
+            return self.prefec_city[prefec]
+        else:
+            raise ValueError("Prefec value is invalid.")
+            
+    def get_city_from_branch(self,branch)->City:
+        '''支庁から対応するcityオブジェクトを取得
+
+        Parameters
+        -----------
+        branch : str
+            取得したいcityオブジェクトの支庁名
+        Returns
+        -------
+        List[City]
+            branchに対応するcityオブジェクトのリスト
+
+        '''
+
         if branch in self.branch_city:
             return self.branch_city[branch]
         else:
-            print("Branch value is invalid. ")
+            raise ValueError("Branch value is invalid.")
     
-    def get_city_from_county(self,county='All'):
+    def get_city_from_county(self,county='All')->List[City]:
         '''countyを保持するcityを返却する
 
         引数にcountyを指定した場合は該当するcounty
@@ -205,6 +253,7 @@ class CitySet:
             するすべてのcity）
 
         '''
+
         if county in self.county_city:
             return self.county_city[county]
         elif county == 'All':
@@ -220,7 +269,7 @@ class CitySet:
             return onedarray
 
         else:
-            print("County value is invalid. ")
+            raise ValueError("County value is invalid.")
 
     def get_county_all(self):
         '''cityオブジェクトが持つすべてのcountyを取得
@@ -236,7 +285,7 @@ class CitySet:
         '''
         return self.county_city.keys()
     
-    def isCounty(self,county):
+    def isCounty(self, county:str)->bool:
         '''引数のcountyを持つcityオブジェクトの存在確認
 
         citySetオブジェクトに属しているcityオブジェクト
@@ -248,17 +297,44 @@ class CitySet:
         else:
             return False        
 
-    def get_from_order(self,order):
+    def get_from_order(self, order:int)->City:
+        '''色指標の順番からcityオブジェクトを取得
+
+        Parameters
+        ----------
+        order : int
+            取得したいCityオブジェクトの色指標
+        
+        Returns
+        -------
+        City
+            orderに対応するCityオブジェクト
+
+        '''
+
         if(order<len(self.order_city)):
             return  self.order_city[order]
         else:
-            print("Order value is invalid.")
+            raise ValueError("Order value is invalid.")
     
-    def get_from_colorcode(self,colorcode):
+    def get_from_colorcode(self, colorcode:str)->City:
+        '''カラーコードから対応するCityオブジェクトを取得
+        
+        Parameters
+        ----------
+        colorcode : str
+            取得したいCityオブジェクトのカラーコード
+
+        Returns
+        -------
+            colorcodeに対応するCityオブジェクト
+        
+        '''
+
         if colorcode in self.colorcode_city:
             return self.colorcode_city[colorcode]
         else:
-            print("ColorCode value is invalid. ")
+            raise ValueError("ColorCode value is invalid.")
 
 
 

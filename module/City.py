@@ -1,3 +1,6 @@
+from typing import List
+
+
 class City:
     '''行政地区の情報を管理するクラス
     
@@ -23,7 +26,7 @@ class City:
         エリアを塗りつぶすカラーコード
     '''
 
-    def __init__(self,citycode,property,areablocks,order,colorcode='#FFFFFF'):
+    def __init__(self, citycode:str, property:List[str], areablocks:List[int], order:int, colorcode='#FFFFFF'):
         self._citycode = citycode
         self._prefec = property[0]
         self._branch = property[1]
@@ -34,42 +37,42 @@ class City:
         self._colorcode = colorcode     #colorcodeのみ変更可能
     
     @property
-    def citycode(self) :
+    def citycode(self)->str:
         return self._citycode
 
     @property
-    def prefec(self):
+    def prefec(self)->str:
         return self._prefec
     
     @property
-    def branch(self):
+    def branch(self)->str:
         return self._branch
     
     @property
-    def county(self):
+    def county(self)->str:
         return self._county
 
     @property
-    def cityname(self):
+    def cityname(self)->str:
         return self._cityname
 
-    def areablocks(self):
+    def areablocks(self)->List[int]:
         return self._areablocks
     
     @property
-    def order(self):
+    def order(self)->int:
         return self._order
     
     @property
-    def colorcode(self):
+    def colorcode(self)->str:
         return self._colorcode
     
     @colorcode.setter
-    def colorcode(self,colorcode):
+    def colorcode(self, colorcode:str):
         self._colorcode = colorcode
 
     
-    def isCounty(self):
+    def isCounty(self)->bool:
         '''cityが郡・政令指定都市に所属するかの判定
 
         Returns
