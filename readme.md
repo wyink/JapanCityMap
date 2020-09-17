@@ -2,7 +2,7 @@
 This program fills each municipality you choose in a prefecture,Japan with a color you like. You can save it in svg format.
 
 ---
-###このアプリケーションについて
+### このアプリケーションについて
 日本の47都道府県それぞれに割り振られている市区町村を最小単位として自由に色を塗ることができます．対応しているフォーマットはsvgです．
 
 ### 使用例
@@ -21,10 +21,11 @@ This program fills each municipality you choose in a prefecture,Japan with a col
 `$ pip install pyper` </br>
 `C:\Users\***> pip install pyper` (Windows)</br>
 </br>
+
 2. Rソフトを開き、以下のコマンドを使用して2つの必要パッケージをインストールします．</br>
 `> install.packages("sf")` </br>
 `> install.packages("ggplot2")`</br>
-
+</br>
 
 3. 対象の県のを取得する．
 
