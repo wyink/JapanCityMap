@@ -1,13 +1,13 @@
 # JapanCityMap
-This program fills each municipality you choose in a prefecture,Japan with a color you like. You can save it in svg format.
+This program fills each municipality you choose in a prefecture, Japan with a color you like. You can save it in SVG format.
 
 ---
 ## このアプリケーションについて
-日本の47都道府県それぞれに割り振られている市区町村を最小単位として自由に色を塗ることができます．対応しているフォーマットはsvgです．
+日本の47都道府県それぞれに割り振られている市区町村を最小単位として自由に色を塗ることができます．対応しているフォーマットはSVGです．
 
 ## 使用例
-大阪府の色分け
-写真を貼り付け
+大阪府の色分け </br>
+<img src="https://user-images.githubusercontent.com/69898489/93661288-97129200-fa91-11ea-915d-84f48bb9859e.png" width="300">
 
 ## 使用方法
 使用ソフトウェア
@@ -24,7 +24,7 @@ This program fills each municipality you choose in a prefecture,Japan with a col
     （描画するのに必要）</br>
 
 **以下の手順でインストールします．** </br>
-1. pyperモジュールのインストール（Rをpython側から実行するのに必要）</br>
+1. pyperモジュールのインストール</br>
 `$ pip install pyper` </br>
 
 2. Rソフトを開き、以下のコマンドを使用して2つの必要パッケージをインストールします．</br>
@@ -32,14 +32,13 @@ This program fills each municipality you choose in a prefecture,Japan with a col
 `> install.packages("ggplot2")`</br>
 </br>
 
-3. 対象の県のシェープファイルを以下のサイトから取得する．
+3. 対象の県のシェープファイルを以下のサイトから取得する．</br>
 [国土交通省のダウンロードページ](https://nlftp.mlit.go.jp/ksj/jpgis/datalist/KsjTmplt-N03.html )
 
 4. シェープファイルはzip形式で提供されるため、これを解凍する．
-</br>
 
 5. 各パラメータを引数としてmain.pyを実行</br>
- `$ python main.py csv todir out [-width WIDH] [-height HEIGHT] ` </br>
+ `$ python main.py csv todir out [-width WIDTH] [-height HEIGHT] ` </br>
 
    - 第一引数：csv</br>
    ：入力csvファイル名を指定
@@ -47,10 +46,10 @@ This program fills each municipality you choose in a prefecture,Japan with a col
    ：shape/geojsonファイルディレクトリまでのパスを指定
    - 第三引数：out</br>
    ：出力svgファイル名を指定
-   - [ width ]（正の整数で指定）</br>
-   ：出力svgファイルの幅を指定（int型で指定）
-   - [ height ]（正の整数で指定）</br>
-   ：出力svgファイルの高さを指定（int型で指定）
+   - [ WIDTH ]（正の整数で指定）</br>
+   ：出力svgファイルの幅を指定
+   - [ HEIGHT ]（正の整数で指定）</br>
+   ：出力svgファイルの高さを指定
 
 
 ## 実行例
@@ -67,8 +66,8 @@ This program fills each municipality you choose in a prefecture,Japan with a col
  └─module
 ```
 
- 入力ファイル例
- (指定する色は `色名` もしくは `#rrggbb` に対応)
+ 入力ファイル例（test.csv）
+ （指定する色は `色名` ， `#rrggbb` に対応）
 ```
  堺市,Red
  千早赤阪村,#FFFF00
@@ -90,6 +89,10 @@ This program fills each municipality you choose in a prefecture,Japan with a col
 ```
  $ python main.py test.csv ./N03-200101_27_GML out.svg -width 20 -height 20 -encoding UTF-8
 ```
+## 出力例
+
+<img src="https://user-images.githubusercontent.com/69898489/93661156-8dd4f580-fa90-11ea-9531-931785328167.png" width="300">
+
 
 
 
