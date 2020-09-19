@@ -33,30 +33,24 @@ This program fills each municipality you choose in a prefecture,Japan with a col
 </br>
 
 3. 対象の県のシェープファイルを以下のサイトから取得する．
-</br>
 [国土交通省のダウンロードページ](https://nlftp.mlit.go.jp/ksj/jpgis/datalist/KsjTmplt-N03.html )
 
 4. シェープファイルはzip形式で提供されるため、これを解凍する．
 </br>
 
-5. 各パラメータを引数としてmain.pyを実行
+5. 各パラメータを引数としてmain.pyを実行</br>
  `$ python main.py csv todir out [-width WIDH] [-height HEIGHT] ` </br>
 
    - 第一引数：csv</br>
    ：入力csvファイル名を指定
-   </br>
    - 第二引数：todir</br>
    ：shape/geojsonファイルディレクトリまでのパスを指定
-   </br>
    - 第三引数：out</br>
    ：出力svgファイル名を指定
-   </br>
    - [ width ]（正の整数で指定）</br>
    ：出力svgファイルの幅を指定（int型で指定）
-   </br>
    - [ height ]（正の整数で指定）</br>
    ：出力svgファイルの高さを指定（int型で指定）
-   </br>
 
 
 ## 実行例
