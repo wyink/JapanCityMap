@@ -1,9 +1,9 @@
 # JapanCityMap
-This program fills each municipality you choose in a prefecture,Japan with a color you like. You can save it in svg format.
+This program fills each municipality you choose in a prefecture, Japan with a color you like. You can save it in SVG format.
 
 ---
 ## このアプリケーションについて
-日本の47都道府県それぞれに割り振られている市区町村を最小単位として自由に色を塗ることができます．対応しているフォーマットはsvgです．
+日本の47都道府県それぞれに割り振られている市区町村を最小単位として自由に色を塗ることができます．対応しているフォーマットはSVGです．
 
 ## 使用例
 大阪府の色分け </br>
@@ -24,7 +24,7 @@ This program fills each municipality you choose in a prefecture,Japan with a col
     （描画するのに必要）</br>
 
 **以下の手順でインストールします．** </br>
-1. pyperモジュールのインストール（Rをpython側から実行するのに必要）</br>
+1. pyperモジュールのインストール</br>
 `$ pip install pyper` </br>
 
 2. Rソフトを開き、以下のコマンドを使用して2つの必要パッケージをインストールします．</br>
@@ -36,7 +36,6 @@ This program fills each municipality you choose in a prefecture,Japan with a col
 [国土交通省のダウンロードページ](https://nlftp.mlit.go.jp/ksj/jpgis/datalist/KsjTmplt-N03.html )
 
 4. シェープファイルはzip形式で提供されるため、これを解凍する．
-</br>
 
 5. 各パラメータを引数としてmain.pyを実行</br>
  `$ python main.py csv todir out [-width WIDH] [-height HEIGHT] ` </br>
@@ -48,9 +47,9 @@ This program fills each municipality you choose in a prefecture,Japan with a col
    - 第三引数：out</br>
    ：出力svgファイル名を指定
    - [ width ]（正の整数で指定）</br>
-   ：出力svgファイルの幅を指定（int型で指定）
+   ：出力svgファイルの幅を指定
    - [ height ]（正の整数で指定）</br>
-   ：出力svgファイルの高さを指定（int型で指定）
+   ：出力svgファイルの高さを指定
 
 
 ## 実行例
@@ -67,8 +66,8 @@ This program fills each municipality you choose in a prefecture,Japan with a col
  └─module
 ```
 
- 入力ファイル例
- (指定する色は `色名` もしくは `#rrggbb` に対応)
+ 入力ファイル例（test.csv）
+ （指定する色は `色名` ， `#rrggbb` に対応）
 ```
  堺市,Red
  千早赤阪村,#FFFF00
