@@ -6,8 +6,8 @@ This program fills each municipality you choose in a prefecture,Japan with a col
 日本の47都道府県それぞれに割り振られている市区町村を最小単位として自由に色を塗ることができます．対応しているフォーマットはsvgです．
 
 ## 使用例
-大阪府の色分け
-写真を貼り付け
+大阪府の色分け </br>
+<img src="https://user-images.githubusercontent.com/69898489/93661288-97129200-fa91-11ea-915d-84f48bb9859e.png" width="300">
 
 ## 使用方法
 使用ソフトウェア
@@ -92,7 +92,7 @@ This program fills each municipality you choose in a prefecture,Japan with a col
 ```
 ## 出力例
 
-<img src="https://user-images.githubusercontent.com/69898489/93661156-8dd4f580-fa90-11ea-9531-931785328167.png" width="200">
+<img src="https://user-images.githubusercontent.com/69898489/93661156-8dd4f580-fa90-11ea-9531-931785328167.png" width="300">
 
 
 
