@@ -2,7 +2,7 @@ import pyper
 import glob
 import os
 
-def make_basic_colormap(todir:str, width:int, height:int)->None:
+def make_basic_colormap(todir:str, width:int, height:int, encoding="CP932")->None:
     '''shapeファイルから行政地区単位でカラーマップを作成
 
     行政地区単位で異なる色で配色される．
@@ -17,6 +17,8 @@ def make_basic_colormap(todir:str, width:int, height:int)->None:
         出力svgファイルの幅
     height : int
         出力svgファイルの高さ
+    encoding : str
+        入力svgファイルに使用されている文字コード
 
     '''
 
@@ -44,7 +46,10 @@ def make_basic_colormap(todir:str, width:int, height:int)->None:
     r.assign('param1',width)
     r.assign('param2',height)
 
-    r('shp <- sf::st_read(shapefile,options="ENCODING=UTF-8")')
+    encoding_to_r = "ENCODING=" + encoding + '"' 
+    r.assign('option',encoding_to_r)
+
+    r('shp <- sf::st_read(shapefile,options=option)')
     r('svg(svgfile, width=param1, height=param2)')
     r('ggplot()+geom_sf(data=shp,aes(fill=N03_007))')
     r('dev.off()')

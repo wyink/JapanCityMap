@@ -4,6 +4,7 @@ import glob
 import os
 import R
 
+
 def main():
 
     parser = argparse.ArgumentParser()
@@ -12,6 +13,13 @@ def main():
     parser.add_argument(
         "csv",
         help="path to infile.csv",
+    )
+
+    #文字コード指定
+    parser.add_argument(
+        "-encoding",
+        help="character code in your csv file." ,
+        default="CP932"
     )
 
     #shape/geojsonファイルディレクトリまでのパスを指定
@@ -45,7 +53,7 @@ def main():
     args = parser.parse_args()
 
     #Rを利用して基本のカラーマップを作成
-    R.make_basic_colormap(args.todir, args.width, args.height)
+    R.make_basic_colormap(args.todir, args.width, args.height, args.encoding)
 
     #行政地区コードとsvgで表現されたエリアの対応付け
     basicsvg = "tmp/tmp.svg"
@@ -65,7 +73,12 @@ def main():
     #任意の色に各行政地区の色を変更
     infile2 = args.csv
     delimiter = ","
-    CityHelper.update_citycolor(infile2,delimiter,cityset)
+    CityHelper.update_citycolor(
+            infile2,
+            delimiter,
+            cityset,
+            encoding=args.encoding
+        )
 
     #基本のカラーマップを上書きして出力
     outfile = args.out

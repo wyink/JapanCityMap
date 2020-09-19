@@ -54,7 +54,7 @@ class CityHelper:
 
 
     @staticmethod
-    def update_citycolor(infile:str, delimiter:str, cityset:CitySet)->None:
+    def update_citycolor(infile:str, delimiter:str, cityset:CitySet, encoding="CP932")->None:
         '''入力ファイルからcitysetに含まれるcityの色を変更
 
         Parameters
@@ -65,10 +65,12 @@ class CityHelper:
             入力ファイルに使用されているデリミタ
         cityset : CitySet
             カラーコードを更新したいcityオブジェクトを格納したCitySetオブジェクト
+        encoding : str
+            csvファイルに使用されている文字コード
         
         '''
 
-        city_color,ctype = CityHelper.load_infile(infile, delimiter) 
+        city_color,ctype = CityHelper.load_infile(infile, delimiter, encoding) 
 
         if ctype:
             CityHelper._update_color_from_citycode(city_color,cityset)
@@ -77,7 +79,7 @@ class CityHelper:
 
 
     @staticmethod
-    def load_infile(infile:str, delimiter:str)-> Tuple[Dict[str ,str],bool]:
+    def load_infile(infile:str, delimiter:str, encoding_="CP932")-> Tuple[Dict[str ,str],bool]:
         '''入力ファイルから行政地区と変更後のカラーコードを読み取る
 
         Parameters
@@ -86,6 +88,8 @@ class CityHelper:
             入力ファイル
         delimiter : str
             入力ファイルで使用されているデリミタ
+        encoding : str
+            csvファイルに使用されている文字コード
         
         Returns
         -------
@@ -97,7 +101,7 @@ class CityHelper:
         '''
         city_color = {} #type : Dict[str,str]
         city,color = '',''
-        for l in open(infile,"r",encoding="UTF-8") :
+        for l in open(infile,"r",encoding=encoding_) :
             l = l.strip()
             city,color = l.split(delimiter,1)
             city_color[city] = color
