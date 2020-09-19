@@ -32,7 +32,7 @@ This program fills each municipality you choose in a prefecture,Japan with a col
 `> install.packages("ggplot2")`</br>
 </br>
 
-3. 対象の県のシェープファイルを以下のサイトから取得する．
+3. 対象の県のシェープファイルを以下のサイトから取得する．</br>
 [国土交通省のダウンロードページ](https://nlftp.mlit.go.jp/ksj/jpgis/datalist/KsjTmplt-N03.html )
 
 4. シェープファイルはzip形式で提供されるため、これを解凍する．
@@ -90,6 +90,10 @@ This program fills each municipality you choose in a prefecture,Japan with a col
 ```
  $ python main.py test.csv ./N03-200101_27_GML out.svg -width 20 -height 20 -encoding UTF-8
 ```
+## 出力例
+
+<img src="https://user-images.githubusercontent.com/69898489/93661156-8dd4f580-fa90-11ea-9531-931785328167.png" width="200">
+
 
 
 
