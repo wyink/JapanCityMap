@@ -38,7 +38,7 @@ This program fills each municipality you choose in a prefecture, Japan with a co
 4. シェープファイルはzip形式で提供されるため、これを解凍する．
 
 5. 各パラメータを引数としてmain.pyを実行</br>
- `$ python main.py csv todir out [-width WIDH] [-height HEIGHT] ` </br>
+ `$ python main.py csv todir out [-width WIDTH] [-height HEIGHT] ` </br>
 
    - 第一引数：csv</br>
    ：入力csvファイル名を指定
@@ -46,9 +46,9 @@ This program fills each municipality you choose in a prefecture, Japan with a co
    ：shape/geojsonファイルディレクトリまでのパスを指定
    - 第三引数：out</br>
    ：出力svgファイル名を指定
-   - [ width ]（正の整数で指定）</br>
+   - [ WIDTH ]（正の整数で指定）</br>
    ：出力svgファイルの幅を指定
-   - [ height ]（正の整数で指定）</br>
+   - [ HEIGHT ]（正の整数で指定）</br>
    ：出力svgファイルの高さを指定
 
 
