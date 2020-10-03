@@ -33,7 +33,7 @@ This program fills each municipality you choose in a prefecture, Japan with a co
 </br>
 
 3. 対象の県のシェープファイルを以下のサイトから取得する．</br>
-[国土交通省のダウンロードページ](https://nlftp.mlit.go.jp/ksj/jpgis/datalist/KsjTmplt-N03.html )
+[国土交通省のダウンロードページ](https://nlftp.mlit.go.jp/ksj/gml/datalist/KsjTmplt-N03-v2_4.html)
 
 4. シェープファイルはzip形式で提供されるため、これを解凍する．
 
@@ -50,6 +50,8 @@ This program fills each municipality you choose in a prefecture, Japan with a co
    ：出力svgファイルの幅を指定
    - [ HEIGHT ]（正の整数で指定）</br>
    ：出力svgファイルの高さを指定
+   - [ ENCODING ] (デフォルトはcp932）</br>
+   
 
 
 ## 実行例
