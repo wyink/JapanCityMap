@@ -38,7 +38,7 @@ This program fills each municipality you choose in a prefecture, Japan with a co
 4. シェープファイルはzip形式で提供されるため、これを解凍する．
 
 5. 各パラメータを引数としてmain.pyを実行</br>
- `$ python main.py csv todir out [-width WIDTH] [-height HEIGHT] ` </br>
+ `$ python main.py csv todir out [-width WIDTH] [-height HEIGHT] [-encoding ENCODING] ` </br>
 
    - 第一引数：csv</br>
    ：入力csvファイル名を指定
