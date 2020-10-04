@@ -40,6 +40,8 @@ This program fills each municipality you choose in a prefecture, Japan with a co
 5. 各パラメータを引数としてmain.pyを実行</br>
  `$ python main.py csv todir out [-width WIDTH] [-height HEIGHT] [-encoding ENCODING] ` </br>
 
+   - **`No Such File` というエラーが出た場合はRソフトの実行パスが通っていない可能性があります。**</br>
+  
    - 第一引数：csv</br>
    ：入力csvファイル名を指定
    - 第二引数：todir</br>
@@ -51,7 +53,8 @@ This program fills each municipality you choose in a prefecture, Japan with a co
    - [ HEIGHT ]（正の整数で指定）</br>
    ：出力svgファイルの高さを指定
    - [ ENCODING ] (デフォルトはcp932）</br>
-   
+  
+  
 
 
 ## 実行例
