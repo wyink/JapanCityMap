@@ -92,7 +92,7 @@ This program fills each municipality you choose in a prefecture, Japan with a co
 ```
  利用コマンド例
 ```
- $ python main.py test.csv ./N03-200101_27_GML out.svg -width 20 -height 20 -encoding UTF-8
+ $ python main.py test.csv ./data/N03-200101_27_GML out.svg -width 20 -height 20 -encoding UTF-8
 ```
 ## 出力例
 
