@@ -186,11 +186,10 @@ class GeoJsonUtils :
                     city = value
                 elif(property=='N03_007'): #市区町村コード
                     citycode = value
-                elif(property == '_fillOpacity'):
                     code_property[citycode]=[prefec,branch,county,city]
                 else:
                     continue
-
+                    
         code_property_sorted = {} #type Dict[str, List[str]]
 
         for code,prop in sorted(code_property.items(),key=lambda x:x[0]):
